@@ -1,0 +1,10 @@
+ymmsl_version: v0.1
+
+model:
+  name: macro_micro_model
+  components:
+    macro: my.macro_model
+    micro: my.micro_model
+  conduits:
+    macro.state_out: micro.init_in
+    micro.final_out: macro.update_in

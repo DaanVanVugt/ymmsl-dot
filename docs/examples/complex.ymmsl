@@ -1,0 +1,63 @@
+ymmsl_version: v0.1
+
+model:
+  name: model_control
+
+  components:
+
+    db_source:
+      ports:
+        o_f: [equilibrium_out, core_profiles_out, interferometer_out]
+
+    transport:
+      ports:
+        f_init: [core_profiles_init]
+        s: [core_sources_in,core_profiles_in]
+        o_i: [core_profiles_out]
+
+    equilibrium:
+      ports:
+        f_init: [equilibrium_init]
+        s: [equilibrium_in]
+        o_i: [equilibrium_out]
+
+    diagnostic:
+      ports:
+        f_init: [equilibrium_in, core_profiles_in]
+        o_f: [interferometer_out]
+
+    actuator:
+      ports:
+        f_init: [gas_injection_in]
+        o_f: [core_sources_out]
+
+    bridge:
+      ports:
+        f_init: [interferometer_in]
+        o_f: [gas_injection_out]
+        o_i: [real_time_data_out]
+        s: [real_time_data_in]
+
+    controller:
+      ports:
+        s: [real_time_data_in]
+        o_i: [real_time_data_out]
+
+  conduits:
+    db_source.equilibrium_out: equilibrium.equilibrium_init
+    db_source.core_profiles_out: transport.core_profiles_init
+
+    transport.core_profiles_out:
+    - diagnostic.core_profiles_in
+
+    equilibrium.equilibrium_out:
+    - diagnostic.equilibrium_in
+
+    diagnostic.interferometer_out: bridge.interferometer_in
+
+    bridge.gas_injection_out: actuator.gas_injection_in
+    bridge.real_time_data_out: controller.real_time_data_in
+
+    actuator.core_sources_out: transport.core_sources_in
+
+    controller.real_time_data_out: bridge.real_time_data_in
