@@ -15,7 +15,7 @@ Two examples are shown here, a simple one [macro_micro](./docs/examples/macro_mi
 ![Default options](./docs/static/complex.svg)
 
 ## Explicit ports, simple arrows, legend (-spl)
-![More options](./docs/static/complex.svg)
+![More options](./docs/static/complex_spl.svg)
 
 
 # Usage
