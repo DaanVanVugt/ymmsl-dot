@@ -17,7 +17,7 @@ def read(*names, **kwargs):
         return fh.read()
 
 
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 # replace relative url with an URL to github
 # assume that the version is tagged and uploaded

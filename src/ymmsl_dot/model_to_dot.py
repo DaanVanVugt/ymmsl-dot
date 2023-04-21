@@ -140,12 +140,12 @@ def component_html_label(component: Component):
 
     label = "<<TABLE CELLSPACING='0' CELLBORDER='0' >\n  <TR>\n"
 
-    for port in component.ports.f_init:
+    for port in sorted(component.ports.f_init):
         label += f"    <TD PORT='{port}' BGCOLOR='{COLORS[Operator.F_INIT]}'\
             >{port_shortname(port)}</TD>\n"
     if len(component.ports.f_init) == 0:
         label += f"    <TD BGCOLOR='{COLORS[Operator.F_INIT]}'></TD>\n"
-    for port in component.ports.o_i:
+    for port in sorted(component.ports.o_i):
         label += f"    <TD PORT='{port}' BGCOLOR='{COLORS[Operator.O_I]}'\
             >{port_shortname(port)}</TD>\n"
     if len(component.ports.o_i) == 0:
@@ -153,12 +153,12 @@ def component_html_label(component: Component):
 
     label += f"    <TD><B>{component.name}</B></TD>\n"
 
-    for port in component.ports.s:
+    for port in sorted(component.ports.s):
         label += f"    <TD PORT='{port}' BGCOLOR='{COLORS[Operator.S]}'\
             >{port_shortname(port)}</TD>\n"
     if len(component.ports.s) == 0:
         label += f"    <TD BGCOLOR='{COLORS[Operator.S]}'></TD>\n"
-    for port in component.ports.o_f:
+    for port in sorted(component.ports.o_f):
         label += f"    <TD PORT='{port}' BGCOLOR='{COLORS[Operator.O_F]}'\
             >{port_shortname(port)}</TD>\n"
     if len(component.ports.o_f) == 0:
@@ -173,6 +173,7 @@ def plot_model_graph(
     draw_ports: bool = False,
     simple_edges: bool = True,
     show_legend: bool = True,
+    edge_labels: bool = False,
 ) -> None:
     """Convert a PartialConfiguration into DOT format."""
     graph = pydot.Dot(
@@ -209,7 +210,8 @@ def plot_model_graph(
         # if it is changed from the previous one
         # note that this does not work for self-loops:
         # https://gitlab.com/graphviz/graphviz/-/blob/main/lib/dotgen/sameport.c#L53
-        if str(conduit.sending_port()) != last_port:
+        # the sametail attribute does not work with explicit ports, skip it
+        if str(conduit.sending_port()) != last_port and not draw_ports:
             graph.add_node(pydot.Node("edge", sametail=str(conduit.sending_port())))
             last_port = str(conduit.sending_port())
 
@@ -248,10 +250,13 @@ def plot_model_graph(
 
         # if port names match exactly (optionally when removing an _in or _out suffix)
         # we show the name on the conduit instead of on the port
-        if simplify_edge_labels and trim_sending_port(
+        port_names_match = trim_sending_port(
             str(conduit.sending_port())
-        ) == trim_receiving_port(str(conduit.receiving_port())):
-            edge.set_label(trim_sending_port(str(conduit.sending_port())))
+        ) == trim_receiving_port(str(conduit.receiving_port()))
+
+        if port_names_match and simplify_edge_labels:
+            if edge_labels:
+                edge.set_label(trim_sending_port(str(conduit.sending_port())))
         else:
             edge.set_taillabel(str(conduit.sending_port()))
             edge.set_headlabel(str(conduit.receiving_port()))

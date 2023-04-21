@@ -83,6 +83,12 @@ def main() -> None:
     is_flag=True,
     help="Never simplify matching port labels along an edge.",
 )
+@click.option(
+    "-h",
+    "--hide-edge-labels",
+    is_flag=True,
+    help="Hide edge labels (as long as the input and output port match).",
+)
 def graph(
     ymmsl_files: Sequence[str],
     out: Union[Path, None],
@@ -93,6 +99,7 @@ def graph(
     legend: bool,
     simple_edges: bool,
     portlabels: bool,
+    hide_edge_labels: bool,
 ) -> None:
     """Plot a graphical representation of the passed yMMSL files.
 
@@ -121,6 +128,7 @@ def graph(
         draw_ports=ports,
         simple_edges=simple_edges,
         show_legend=legend,
+        edge_labels=not hide_edge_labels,
     )
 
     if fmt is None:

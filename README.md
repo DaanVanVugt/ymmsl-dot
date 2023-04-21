@@ -18,7 +18,7 @@ Two examples are shown here, a simple one [macro_micro](./docs/examples/macro_mi
 ![More options](./docs/static/complex_spl.svg)
 
 
-# Usage
+# Usage (`ymmsl graph --help`)
 
     Usage: ymmsl graph [OPTIONS] YMMSL_FILES...
 
