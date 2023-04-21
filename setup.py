@@ -17,11 +17,12 @@ def read(*names, **kwargs):
         return fh.read()
 
 
-long_description = read("README.md")
+# replace relative url with an URL to github
+long_description = read("README.md").replace('./docs', 'https://github.com/DaanVanVugt/ymmsl-dot/raw/main/docs')
 
 setup(
     name="ymmsl-dot",
-    version="0.1.0",
+    version="0.1.1",
     description="Visualise yMMSL models with graphviz.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -38,7 +39,7 @@ setup(
         # complete classifier list:
         # http://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 4 - Beta",
-        "License :: OSI Approved :: Apache License 2.0",
+        "License :: OSI Approved :: Apache Software License",
         "Intended Audience :: Science/Research",
         "Natural Language :: English",
         "Operating System :: POSIX",
