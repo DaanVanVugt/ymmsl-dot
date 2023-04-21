@@ -53,6 +53,8 @@ Two examples are shown here, a simple one [macro_micro](./docs/examples/macro_mi
                                       types.
       --portlabels                    Never simplify matching port labels along an
                                       edge.
+      -h, --hide-edge-labels          Hide edge labels (as long as the input and
+                                      output port match).
       --help                          Show this message and exit.
 
 # Issues and Discussions
