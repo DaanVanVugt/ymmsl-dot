@@ -174,16 +174,18 @@ def plot_model_graph(
     simple_edges: bool = True,
     show_legend: bool = True,
     edge_labels: bool = False,
+    splines: str = 'ortho', # dot only
+    layout: str = "dot",
 ) -> None:
     """Convert a PartialConfiguration into DOT format."""
     graph = pydot.Dot(
-        config.model.name,
+        str(config.model.name),
         graph_type="digraph",
-        layout="dot",
+        layout=layout,
         pad=1,
-        # splines="ortho",
-        nodesep=0.6,
-        ranksep=0.75,
+        splines=splines,
+        nodesep=1.2,
+        ranksep=1.5,
         fontname="Sans-Serif",
     )
     # be very careful with ortho splines, I have seen it put edges
@@ -194,7 +196,7 @@ def plot_model_graph(
         label_method = component_html_label
     else:
         def label_method(x):
-            return x.name
+            return str(x.name)
 
     # Start with a legend node
     if draw_ports and show_legend:
@@ -212,7 +214,7 @@ def plot_model_graph(
         # https://gitlab.com/graphviz/graphviz/-/blob/main/lib/dotgen/sameport.c#L53
         # the sametail attribute does not work with explicit ports, skip it
         if str(conduit.sending_port()) != last_port and not draw_ports:
-            graph.add_node(pydot.Node("edge", sametail=str(conduit.sending_port())))
+            graph.add_node(pydot.Node("edge"))#, sametail=str(conduit.sending_port())))
             last_port = str(conduit.sending_port())
 
         # can we do this more elegantly?

@@ -10,7 +10,6 @@ from ymmsl import PartialConfiguration
 
 from .model_to_dot import plot_model_graph
 
-
 @click.group()
 def main() -> None:
     """This command provides various functions for analysing yMMSL coupled simulations.
@@ -57,6 +56,20 @@ def main() -> None:
     help="Set output format (default svg).",
 )
 @click.option(
+    "-l",
+    "--layout",
+    type=click.Choice(['dot', 'neato', 'fdp', 'sfdp', 'twopi', 'circo', 'osage', 'patchwork'], case_sensitive=True),
+    required=False,
+    help="Set layout (default dot).",
+)
+@click.option(
+    "-p",
+    "--splines",
+    type=click.Choice(['true', 'false', 'polyline', 'curved', 'ortho', 'compound'], case_sensitive=True),
+    required=False,
+    help="Set spline type (default ortho, supported in dot only).",
+)
+@click.option(
     "-w",
     "--viewer",
     nargs=1,
@@ -93,6 +106,8 @@ def graph(
     ymmsl_files: Sequence[str],
     out: Union[Path, None],
     fmt: str,
+    layout: str,
+    splines: str,
     viewer: str,
     verbose: bool,
     ports: bool,
@@ -129,6 +144,8 @@ def graph(
         simple_edges=simple_edges,
         show_legend=legend,
         edge_labels=not hide_edge_labels,
+        layout=layout,
+        splines=splines,
     )
 
     if fmt is None:
