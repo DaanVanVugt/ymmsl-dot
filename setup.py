@@ -17,7 +17,7 @@ def read(*names, **kwargs):
         return fh.read()
 
 
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 
 # replace relative url with an URL to github
 # assume that the version is tagged and uploaded
@@ -54,6 +54,8 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
     project_urls={

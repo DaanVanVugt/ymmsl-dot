@@ -177,7 +177,7 @@ def plot_model_graph(
 ) -> None:
     """Convert a PartialConfiguration into DOT format."""
     graph = pydot.Dot(
-        config.model.name,
+        str(config.model.name),
         graph_type="digraph",
         layout="dot",
         pad=1,
@@ -194,7 +194,7 @@ def plot_model_graph(
         label_method = component_html_label
     else:
         def label_method(x):
-            return x.name
+            return str(x.name)
 
     # Start with a legend node
     if draw_ports and show_legend:
